@@ -16,11 +16,17 @@ void helloWorld() {
 }
 
 void dimension (char *source_path){
-    unsigned char* data;
+    unsigned char *data;
     int width, height, channel_count;
-    const char *filename= source_path; 
    /* int read_image_data(const char *filename, unsigned char **data, int *width, int *height, int *channel_count);*/
     read_image_data(source_path, &data, &width, &height, &channel_count);
     printf("Dimensions : %d, %d\n", width , height);
 
+}
+
+void first_pixel (char *source_path){
+    unsigned char *data;
+    int width, height, channel_count; 
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    printf("first_pixel : %d, %d, %d\n", data[0],data[1], data[2] );
 }
