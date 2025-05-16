@@ -3,6 +3,7 @@
 
 #include "features.h"
 #include "utils.h"
+#include <stdlib.h>
 
 /**
  * @brief Here, you have to code features of the project.
@@ -13,4 +14,17 @@
 
 void helloWorld() {
     printf("Hello World !");
+}
+
+void first_pixel(char *source_path) {
+    unsigned char *data = NULL;
+    const char *filename = source_path;
+
+    int r = data[0];
+    int g = data[1];
+    int b = data[2];
+    
+    printf("first_pixel: %d, %d, %d\n", r, g, b);
+
+    free(data);
 }
