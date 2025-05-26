@@ -39,3 +39,11 @@ void tenth_pixel (char *source_path){
     printf("tenth_pixel : %d, %d, %d\n", data[27],data[28], data[29] );
 
 }
+
+void second_line(char *source_path) {
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    int index_second_line = width * 3;
+    printf("second_line: %d, %d, %d\n", data[index_second_line], data[index_second_line + 1], data[index_second_line + 2]);
+}
