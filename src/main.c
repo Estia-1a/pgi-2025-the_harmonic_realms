@@ -38,9 +38,13 @@ int main(int argc, char **argv) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
     tenth_pixel(configuration.filenames[0]);
   }
-
 /*Creation branche dev */
 /*Creation branche Eva*/
+  if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
+     /* first_pixel() function is defined in feature.h and implemented in feature.c */
+      stat_report(configuration.filenames[0]);
+  }
+
   return 0;
 
 }

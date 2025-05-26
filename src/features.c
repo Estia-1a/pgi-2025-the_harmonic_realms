@@ -39,3 +39,7 @@ void tenth_pixel (char *source_path){
     printf("tenth_pixel : %d, %d, %d\n", data[27],data[28], data[29] );
 
 }
+
+void stat_report (char *source_path){
+    printf("test appel fonction");
+}
