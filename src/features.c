@@ -43,7 +43,7 @@ void tenth_pixel (char *source_path){
 void print_pixel( char *filename, int x, int y ){
     unsigned char *data= NULL;
     int width, height, channel_count;
-    int result = read_image_data(filename, &data, &width, &height, &channel_count);
+    read_image_data(filename, &data, &width, &height, &channel_count);
     pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
     printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel->R, pixel->G, pixel->B);
     if (data != NULL) {
@@ -54,8 +54,8 @@ void print_pixel( char *filename, int x, int y ){
 void min_pixel( char *source_path){
     int min_sum, min_x, min_y, y, x, sum;
     unsigned char *data;
-    int width, height, channel_count, result;
-    result=read_image_data(source_path,&data, &width, &height, &channel_count);
+    int width, height, channel_count;
+    read_image_data(source_path,&data, &width, &height, &channel_count);
     min_sum = 255*3;
     min_x= 0;
     min_y = 0;
@@ -79,4 +79,32 @@ void min_pixel( char *source_path){
     printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel->R, pixel->G, pixel->B );
 }
 
+
+void max_pixel( char *source_path){
+    int max_sum, max_x, max_y, y, x, sum;
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path,&data, &width, &height, &channel_count);
+    max_sum = 0;
+    max_x= 0;
+    max_y = 0;
+    pixelRGB *pixel = NULL;
+        
+    for (y=0; y<height; y++){
+        for(x=0; x<width; x++){
+            pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
+            if(pixel_lu != NULL){
+                sum= pixel_lu->R +pixel_lu->G +pixel_lu->B;
+                if (sum> max_sum){
+                    max_sum = sum;
+                    max_x = x;
+                    max_y = y;
+                    pixel = pixel_lu;
+                }           
+            }
+        }
+    }
+
+    printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel->R, pixel->G, pixel->B );
+}
 
