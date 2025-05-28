@@ -35,8 +35,14 @@ int main(int argc, char **argv) {
     first_pixel(configuration.filenames[0]);
   }
   if ( strncmp( configuration.command, "tenth_pixel", 11 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    /* tenth_pixel() function is defined in feature.h and implemented in feature.c */
     tenth_pixel(configuration.filenames[0]);
+  }
+  if ( strncmp( configuration.command, "print_pixel", 11 ) == 0 ) {
+    /* get_pixel() function is defined in feature.h and implemented in feature.c */
+    int x =atoi(argv[argc-2]);
+    int y =atoi(argv[argc-1]);
+    print_pixel(configuration.filenames[0], x, y );
   }
 
 /*Creation branche dev */

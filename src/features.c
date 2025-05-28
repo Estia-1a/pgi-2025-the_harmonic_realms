@@ -21,7 +21,7 @@ void dimension (char *source_path){
     int width, height, channel_count;
    /* int read_image_data(const char *filename, unsigned char **data, int *width, int *height, int *channel_count);*/
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    printf("Dimensions : %d, %d\n", width , height);
+    printf("dimension : %d, %d\n", width , height);
 
 }
 
@@ -39,3 +39,15 @@ void tenth_pixel (char *source_path){
     printf("tenth_pixel : %d, %d, %d\n", data[27],data[28], data[29] );
 
 }
+
+void print_pixel( char *filename, int x, int y ){
+    unsigned char *data= NULL;
+    int width, height, channel_count;
+    int result = read_image_data(filename, &data, &width, &height, &channel_count);
+    pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
+    printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel->R, pixel->G, pixel->B);
+    if (data != NULL) {
+        free(data);
+    }
+}
+

@@ -10,4 +10,6 @@ void dimension (char *source_path);
 
 void tenth_pixel (char *source_path); 
 
+void print_pixel( char *filename, int x, int y );
+
 #endif
