@@ -12,4 +12,6 @@ void tenth_pixel (char *source_path);
 
 void print_pixel( char *filename, int x, int y );
 
+void min_pixel( char *filename );
+
 #endif

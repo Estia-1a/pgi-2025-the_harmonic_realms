@@ -39,12 +39,13 @@ int main(int argc, char **argv) {
     tenth_pixel(configuration.filenames[0]);
   }
   if ( strncmp( configuration.command, "print_pixel", 11 ) == 0 ) {
-    /* get_pixel() function is defined in feature.h and implemented in feature.c */
     int x =atoi(argv[argc-2]);
     int y =atoi(argv[argc-1]);
     print_pixel(configuration.filenames[0], x, y );
   }
-
+  if ( strncmp( configuration.command, "min_pixel", 11 ) == 0 ) {
+    min_pixel(configuration.filenames[0]);
+  }
 /*Creation branche dev */
 
   return 0;

@@ -51,3 +51,32 @@ void print_pixel( char *filename, int x, int y ){
     }
 }
 
+void min_pixel( char *source_path){
+    int min_sum, min_x, min_y, y, x, sum;
+    unsigned char *data;
+    int width, height, channel_count, result;
+    result=read_image_data(source_path,&data, &width, &height, &channel_count);
+    min_sum = 255*3;
+    min_x= 0;
+    min_y = 0;
+    pixelRGB *pixel = NULL;
+        
+    for (y=0; y<height; y++){
+        for(x=0; x<width; x++){
+            pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
+            if(pixel_lu != NULL){
+                sum= pixel_lu->R +pixel_lu->G +pixel_lu->B;
+                if (sum< min_sum){
+                    min_sum = sum;
+                    min_x = x;
+                    min_y = y;
+                    pixel = pixel_lu;
+                }           
+            }
+        }
+    }
+
+    printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel->R, pixel->G, pixel->B );
+}
+
+
