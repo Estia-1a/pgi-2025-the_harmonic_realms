@@ -42,13 +42,13 @@ int main(int argc, char **argv) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
     second_line(configuration.filenames[0]);
   }
-  
-  if ( strncmp( configuration.command, "max_component", 11 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
-    max_component(configuration.filenames[0], 'R');
-    max_component(configuration.filenames[0], 'G'); 
-    max_component(configuration.filenames[0], 'B');
-  }
+
+  if (strncmp(configuration.command, "max_component", 11) == 0) {
+    char component;
+    max_component(configuration.filenames[0], component);
+}
+
+
 
 /*Creation branche dev */
 
