@@ -26,19 +26,30 @@ int main(int argc, char **argv) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     helloWorld();
   }
-  if ( strncmp( configuration.command, "dimension", 9 ) == 0 ) {
+  if ( strncmp( configuration.command, "dimension", 1 ) == 0 ) {
     /* dimension() function is defined in feature.h and implemented in feature.c */
     dimension( configuration.filenames[0] );
   } 
-  if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
+  if ( strncmp( configuration.command, "first_pixel", 2 ) == 0 ) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
     first_pixel(configuration.filenames[0]);
   }
-  if ( strncmp( configuration.command, "tenth_pixel", 11 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+  if ( strncmp( configuration.command, "tenth_pixel", 3) == 0 ) {
+    /* tenth_pixel() function is defined in feature.h and implemented in feature.c */
     tenth_pixel(configuration.filenames[0]);
   }
-
+  if ( strncmp( configuration.command, "print_pixel", 4 ) == 0 ) {
+    int x =atoi(argv[argc-2]);
+    int y =atoi(argv[argc-1]);
+    print_pixel(configuration.filenames[0], x, y );
+  }
+  if ( strncmp( configuration.command, "min_pixel", 5 ) == 0 ) {
+    min_pixel(configuration.filenames[0]);
+  }
+/*Creation branche dev */
+  if ( strncmp( configuration.command, "max_pixel", 6 ) == 0 ) {
+    max_pixel(configuration.filenames[0]);
+  }
 
   return 0;
 
