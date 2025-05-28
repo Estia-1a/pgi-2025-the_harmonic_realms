@@ -38,6 +38,9 @@ int main(int argc, char **argv) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
     tenth_pixel(configuration.filenames[0]);
   }
+  if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
+    min_component(configuration.filenames[0], configuration.argument);
+  }
 
 
   return 0;
