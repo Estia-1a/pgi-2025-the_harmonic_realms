@@ -47,3 +47,45 @@ void second_line(char *source_path) {
     int index_second_line = width * 3;
     printf("second_line: %d, %d, %d\n", data[index_second_line], data[index_second_line + 1], data[index_second_line + 2]);
 }
+
+void max_component(char *source_path, char component) {
+    unsigned char *data;
+    int width, height, channel_count;
+    
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    int component_offset;
+    char comp_upper = toupper(component);
+    
+    if (comp_upper == 'R') {
+        component_offset = 0;
+    } else if (comp_upper == 'G') {
+        component_offset = 1;
+    } else if (comp_upper == 'B') {
+        component_offset = 2;
+    } else {
+        printf("Erreur: Composante invalide. Utilisez R, G ou B.\n");
+        free(data);
+        return;
+    }
+    
+    unsigned char max_value = 0;
+    int max_x = 0, max_y = 0;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int pixel_index = (y * width + x) * channel_count;
+            unsigned char current_value = data[pixel_index + component_offset];
+            
+            if (current_value > max_value || 
+                (current_value == max_value && (y < max_y || (y == max_y && x < max_x)))) {
+                max_value = current_value;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+    
+    printf("max_component %c (%d, %d): %d\n", comp_upper, max_x, max_y, max_value);
+
+    free(data);
+}
+
