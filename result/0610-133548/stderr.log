@@ -1,0 +1,8 @@
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘max_component’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:98:23: warning: implicit declaration of function ‘toupper’ [-Wimplicit-function-declaration]
+   98 |     char comp_upper = toupper(component);
+      |                       ^~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:9:1: note: include ‘<ctype.h>’ or provide a declaration of ‘toupper’
+    8 | #include <limits.h>
+  +++ |+#include <ctype.h>
+    9 | 
