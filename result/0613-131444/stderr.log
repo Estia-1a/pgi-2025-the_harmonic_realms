@@ -1,0 +1,19 @@
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘max_component’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:98:23: warning: implicit declaration of function ‘toupper’ [-Wimplicit-function-declaration]
+   98 |     char comp_upper = toupper(component);
+      |                       ^~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:9:1: note: include ‘<ctype.h>’ or provide a declaration of ‘toupper’
+    8 | #include <limits.h>
+  +++ |+#include <ctype.h>
+    9 | 
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_red’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:224:23: error: ‘img’ undeclared (first use in this function)
+  224 |   for (int i = 0; i < img->width * img->height; i++) {
+      |                       ^~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:224:23: note: each undeclared identifier is reported only once for each function it appears in
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:93: CMakeFiles/freud.dir/src/features.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/freud.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+
+The process '/usr/local/bin/cmake' failed with exit code 2
