@@ -218,17 +218,3 @@ void max_pixel(char *source_path)
 
     printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel->R, pixel->G, pixel->B);
 }
-
-int color_red(const char* input_filename) {
-
-  for (int i = 0; i < img->width * img->height; i++) {
-        img->data[i].g = 0;
-        img->data[i].b = 0;
-    }
-
-    int result = write_image_data("image_out.bmp", (unsigned char*)img->data, img->width, img->height);
-    
-    free(img->data);
-    free(img);
-    return result;
-}
