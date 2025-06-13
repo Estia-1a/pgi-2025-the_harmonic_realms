@@ -378,3 +378,30 @@ void color_green(char *source_path)
     write_image_data("images/output/image_out3.bmp", data, width, height);
     return data;
 }
+void color_gray(char *source_path)
+{
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    pixelRGB *pixel = NULL;
+    
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            pixel = get_pixel(data, width, height, channel_count, x, y);
+            if (pixel != NULL)
+            {
+                unsigned char value = (pixel->R + pixel->G + pixel->B) / 3;
+
+                pixel->R = value;
+                pixel->G = value;
+                pixel->B = value;
+            }
+        }
+    }
+    
+    write_image_data("images/output/image_out4.bmp", data, width, height);
+    return data;
+}
