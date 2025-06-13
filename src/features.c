@@ -284,3 +284,27 @@ void stat_report (char *source_path){
     fclose(out);
     free(data);
 }
+
+void color_red(char *source_path)
+{
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    pixelRGB *pixel = NULL;
+    
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            pixel = get_pixel(data, width, height, channel_count, x, y);
+            if (pixel != NULL)
+            {
+                pixel->G = 0;
+                pixel->B = 0;
+            }
+        }
+    }
+    
+    write_image_data("image_out.bmp", data, width, height);
+}
