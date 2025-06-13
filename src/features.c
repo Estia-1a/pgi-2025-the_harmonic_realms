@@ -306,5 +306,56 @@ void color_red(char *source_path)
         }
     }
     
-    write_image_data("image_out.bmp", data, width, height);
+    write_image_data("images/output/image_out.bmp", data, width, height);
+    return data;
+}
+
+void color_blue(char *source_path)
+{
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    pixelRGB *pixel = NULL;
+    
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            pixel = get_pixel(data, width, height, channel_count, x, y);
+            if (pixel != NULL)
+            {
+                pixel->R = 0;
+                pixel->G = 0;
+            }
+        }
+    }
+    
+    write_image_data("images/output/image_out2.bmp", data, width, height);
+    return data;
+}
+
+void color_green(char *source_path)
+{
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    pixelRGB *pixel = NULL;
+    
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            pixel = get_pixel(data, width, height, channel_count, x, y);
+            if (pixel != NULL)
+            {
+                pixel->R = 0;
+                pixel->B = 0;
+            }
+        }
+    }
+    
+    write_image_data("images/output/image_out3.bmp", data, width, height);
+    return data;
 }
