@@ -1,0 +1,21 @@
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_red’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:329:12: warning: ‘return’ with a value, in function returning void
+  329 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:307:6: note: declared here
+  307 | void color_red(char *source_path)
+      |      ^~~~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_blue’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:354:12: warning: ‘return’ with a value, in function returning void
+  354 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:332:6: note: declared here
+  332 | void color_blue(char *source_path)
+      |      ^~~~~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_green’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:379:12: warning: ‘return’ with a value, in function returning void
+  379 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:357:6: note: declared here
+  357 | void color_green(char *source_path)
+      |      ^~~~~~~~~~~
