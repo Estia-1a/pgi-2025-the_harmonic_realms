@@ -25,4 +25,7 @@ void max_pixel( char *filename );
 
 void stat_report (char *source_path);
 
+void color_invert(char *source_path);
+
+
 #endif

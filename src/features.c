@@ -284,3 +284,23 @@ void stat_report (char *source_path){
     fclose(out);
     free(data);
 }
+void color_invert(char *source_path) {
+    unsigned char *data;
+    int width, height, channel_count;
+
+    // Lecture de l’image source
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int size = width * height * channel_count;
+
+    // Inversion de chaque composante R, G, B
+    for (int i = 0; i < size; i++) {
+        data[i] = 255 - data[i];
+    }
+
+    // Sauvegarde de l'image modifiée
+    write_image_data("image_out.bmp", data, width, height);
+    free(data);
+
+    printf("Image inversée générée sous le nom : image_out.bmp\n");
+}
