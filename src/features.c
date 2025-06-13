@@ -6,6 +6,8 @@
 #include <stdlib.h>
 
 #include <limits.h>
+#include <ctype.h>
+
 
 /**
  * @brief Here, you have to code features of the project.
@@ -39,20 +41,27 @@ void tenth_pixel (char *source_path){
     int width, height, channel_count; 
     read_image_data(source_path, &data, &width, &height, &channel_count);
     printf("tenth_pixel : %d, %d, %d\n", data[27],data[28], data[29] );
-
+        }
 void min_component(char *source_path, char component){
     unsigned char *data;
     int width, height, channel_count;
+
     read_image_data(source_path, &data, &width, &height, &channel_count);
 
-    int min_value = 256;
-    int min_index = 0;
-    int min_x = 0, min_y = 0;
-
+    char comp_upper = toupper(component);
     int channel_offset;
-    if (component == 'R') channel_offset = 0;
-    else if (component == 'G') channel_offset = 1;
-    else channel_offset = 2;
+
+    if (comp_upper == 'R') channel_offset = 0;
+    else if (comp_upper == 'G') channel_offset = 1;
+    else if (comp_upper == 'B') channel_offset = 2;
+    else {
+        printf("Erreur: Composante invalide. Utilisez R, G ou B.\n");
+        free(data);
+        return;
+    }
+
+    int min_value = 256;
+    int min_x = 0, min_y = 0;
 
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -66,8 +75,8 @@ void min_component(char *source_path, char component){
         }
     }
 
-    printf("min_component %c (%d, %d): %d\n", component, min_x, min_y, min_value);
+    printf("min_component %c (%d, %d): %d\n", comp_upper, min_x, min_y, min_value);
+    free(data);
 }
 
 
-}
