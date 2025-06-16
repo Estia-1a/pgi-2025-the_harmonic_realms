@@ -296,6 +296,7 @@ void stat_report (char *source_path){
     fclose(out);
     free(data);
 }
+
 void color_invert(char *source_path) {
     unsigned char *data;
     int width, height, channel_count;
@@ -316,6 +317,7 @@ void color_invert(char *source_path) {
 
     printf("Image inversée générée sous le nom : image_out.bmp\n");
 }
+
 void color_red(char *source_path)
 {
     unsigned char *data;
@@ -390,6 +392,7 @@ void color_green(char *source_path)
     write_image_data("images/output/image_out3.bmp", data, width, height);
     return data;
 }
+
 void color_gray(char *source_path)
 {
     unsigned char *data;
@@ -456,4 +459,3 @@ void color_gray_luminance(char *source_path, char *dest_path)
     free(data);
     printf(">>> Image transformée en niveaux de gris (luminance) écrite dans : %s\n", dest_path);
 }
-
