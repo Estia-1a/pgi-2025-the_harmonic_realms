@@ -114,6 +114,10 @@ int main(int argc, char **argv)
     mirror_total(configuration.filenames[0], "image_out.bmp");
   }
 
+  else if (strcmp(configuration.command, "mirror_vertical") == 0) {
+    mirror_vertical(configuration.filenames[0], "image_out.bmp");
+  }
+
   
   return 0;
 }
