@@ -197,35 +197,45 @@ void min_pixel(char *source_path)
 
 void max_pixel(char *source_path)
 {
-    int max_sum, max_x, max_y, y, x, sum;
+    int max_sum = -1, max_x = 0, max_y = 0, y, x, sum;
     unsigned char *data;
     int width, height, channel_count;
+    
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    max_sum = 0;
-    max_x = 0;
-    max_y = 0;
-    pixelRGB *pixel = NULL;
+    
+    pixelRGB *pixel_lu = NULL;
+    pixelRGB *max_pixel_val = NULL;
 
-    for (y = 0; y < height; y++)
-    {
-        for (x = 0; x < width; x++)
-        {
-            pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
-            if (pixel_lu != NULL)
-            {
+    for (y = 0; y < height; y++) {
+        for (x = 0; x < width; x++) {
+            pixel_lu = get_pixel(data, width, height, channel_count, x, y);
+            if (pixel_lu != NULL) {
                 sum = pixel_lu->R + pixel_lu->G + pixel_lu->B;
-                if (sum > max_sum)
-                {
+                if (sum > max_sum) {
                     max_sum = sum;
                     max_x = x;
                     max_y = y;
-                    pixel = pixel_lu;
+
+                    // libère l'ancien max_pixel_val
+                    if (max_pixel_val != NULL) {
+                        free(max_pixel_val);
+                    }
+
+                    // copie du nouveau pixel max
+                    max_pixel_val = pixel_lu;
+                } else {
+                    free(pixel_lu); // on libère celui qu'on n'utilise pas
                 }
             }
         }
     }
 
-    printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel->R, pixel->G, pixel->B);
+    if (max_pixel_val != NULL) {
+        printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, max_pixel_val->R, max_pixel_val->G, max_pixel_val->B);
+        free(max_pixel_val);
+    }
+
+    free(data);
 }
 
 void stat_report (char *source_path){
@@ -407,3 +417,43 @@ void color_gray(char *source_path)
     write_image_data("images/output/image_out4.bmp", data, width, height);
     return data;
 }
+
+void color_gray_luminance(char *source_path, char *dest_path)
+{
+    printf(">>> Début de color_gray_luminance\n");
+    unsigned char *data;
+    int width, height, channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (data == NULL) {
+        printf("Erreur : l'image n'a pas été chargée correctement.\n");
+        return;
+    }
+
+    if (channel_count < 3) {
+        fprintf(stderr, "Image must have au moins 3 canaux (RGB).\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            unsigned int idx = (y * width + x) * channel_count;
+            unsigned char R = data[idx];
+            unsigned char G = data[idx + 1];
+            unsigned char B = data[idx + 2];
+
+            int gray = (int)(0.299 * R + 0.587 * G + 0.114 * B);
+            gray = gray > 255 ? 255 : (gray < 0 ? 0 : gray);
+
+            data[idx]     = gray;
+            data[idx + 1] = gray;
+            data[idx + 2] = gray;
+        }
+    }
+
+    write_image_data(dest_path, data, width, height);
+    free(data);
+    printf(">>> Image transformée en niveaux de gris (luminance) écrite dans : %s\n", dest_path);
+}
+
