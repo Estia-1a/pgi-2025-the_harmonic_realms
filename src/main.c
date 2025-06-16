@@ -126,5 +126,9 @@ int main(int argc, char **argv)
     rotate_acw(configuration.filenames[0], "image_out.bmp");
   }
 
+  else if (strcmp(configuration.command, "rotate_cw") == 0) {
+    rotate_cw(configuration.filenames[0], "image_out.bmp");
+}
+
   return 0;
 }
