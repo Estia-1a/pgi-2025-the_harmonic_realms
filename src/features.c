@@ -33,19 +33,19 @@ void first_pixel (char *source_path){
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    max_sum = 0;
-    max_x = 0;
-    max_y = 0;
+    int max_sum = 0;
+    int max_x = 0;
+    int max_y = 0;
     pixelRGB *pixel = NULL;
 
-    for (y = 0; y < height; y++)
+    for (int y = 0; y < height; y++)
     {
-        for (x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
             pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
             if (pixel_lu != NULL)
             {
-                sum = pixel_lu->R + pixel_lu->G + pixel_lu->B;
+                int sum = pixel_lu->R + pixel_lu->G + pixel_lu->B;
                 if (sum > max_sum)
                 {
                     max_sum = sum;
@@ -66,6 +66,7 @@ void second_line(char *source_path)
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
     printf("tenth_pixel : %d, %d, %d\n", data[27],data[28], data[29] );
+}
 
 void min_component(char *source_path, char component){
     unsigned char *data;
@@ -97,8 +98,6 @@ void min_component(char *source_path, char component){
 }
 
 
-}
-
 void second_line(char *source_path) {
     unsigned char *data;
     int width, height, channel_count;
@@ -129,7 +128,7 @@ void max_component(char *source_path, char component) {
     
     unsigned char max_value = 0;
     int max_x = 0, max_y = 0;
-    for (int y = 0; y < height; y++) {
+    for(int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int pixel_index = (y * width + x) * channel_count;
             unsigned char current_value = data[pixel_index + component_offset];
