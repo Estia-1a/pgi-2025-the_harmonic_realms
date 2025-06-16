@@ -573,3 +573,79 @@ void mirror_horizontal(char *source_path, char *dest_path)
     free(mirrored);
     printf(">>> Image miroir horizontal écrite dans : %s\n", dest_path);
 }
+
+void rotate_acw(char *source_path, char *dest_path)
+{
+    printf(">>> Début de rotate_acw\n");
+    unsigned char *data;
+    int width, height, channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (data == NULL) {
+        fprintf(stderr, "Erreur : image non chargée.\n");
+        return;
+    }
+
+    int new_width = height;
+    int new_height = width;
+
+    unsigned char *rotated = malloc(new_width * new_height * channel_count);
+    if (rotated == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int c = 0; c < channel_count; c++) {
+                int src_idx = (y * width + x) * channel_count + c;
+                int dst_idx = ((width - 1 - x) * new_width + y) * channel_count + c;
+                rotated[dst_idx] = data[src_idx];
+            }
+        }
+    }
+
+    write_image_data(dest_path, rotated, new_width, new_height);
+    free(data);
+    free(rotated);
+    printf(">>> Image pivotée à 90° anti-horaire enregistrée dans : %s\n", dest_path);
+}
+
+void rotate_cw(char *source_path, char *dest_path)
+{
+    printf(">>> Début de rotate_cw\n");
+    unsigned char *data;
+    int width, height, channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (data == NULL) {
+        fprintf(stderr, "Erreur : image non chargée.\n");
+        return;
+    }
+
+    int new_width = height;
+    int new_height = width;
+
+    unsigned char *rotated = malloc(new_width * new_height * channel_count);
+    if (rotated == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int c = 0; c < channel_count; c++) {
+                int src_idx = (y * width + x) * channel_count + c;
+                int dst_idx = (x * new_width + (new_width - 1 - y)) * channel_count + c;
+                rotated[dst_idx] = data[src_idx];
+            }
+        }
+    }
+
+    write_image_data(dest_path, rotated, new_width, new_height);
+    free(data);
+    free(rotated);
+    printf(">>> Image pivotée à 90° horaire enregistrée dans : %s\n", dest_path);
+}
