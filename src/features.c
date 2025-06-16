@@ -459,3 +459,45 @@ void color_gray_luminance(char *source_path, char *dest_path)
     free(data);
     printf(">>> Image transformée en niveaux de gris (luminance) écrite dans : %s\n", dest_path);
 }
+
+void mirror_total(char *source_path, char *dest_path)
+{
+    printf(">>> Début de mirror_total\n");
+
+    unsigned char *data;
+    int width, height, channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (data == NULL) {
+        fprintf(stderr, "Erreur : l'image n'a pas été chargée correctement.\n");
+        return;
+    }
+
+    // Allouer un nouveau tableau pour stocker l'image miroir
+    unsigned char *mirrored_data = malloc(width * height * channel_count);
+    if (mirrored_data == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int src_idx = (y * width + x) * channel_count;
+
+            int mirrored_x = width - 1 - x;
+            int mirrored_y = height - 1 - y;
+            int dst_idx = (mirrored_y * width + mirrored_x) * channel_count;
+
+            for (int c = 0; c < channel_count; c++) {
+                mirrored_data[dst_idx + c] = data[src_idx + c];
+            }
+        }
+    }
+
+    write_image_data(dest_path, mirrored_data, width, height);
+    free(data);
+    free(mirrored_data);
+
+    printf(">>> Image miroir complète générée : %s\n", dest_path);
+}

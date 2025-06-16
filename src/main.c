@@ -108,6 +108,12 @@ int main(int argc, char **argv)
   {
     color_gray_luminance(configuration.filenames[0], configuration.filenames[1]);
   }
+
+  else if (strcmp(configuration.command, "mirror_total") == 0) 
+  {
+    mirror_total(configuration.filenames[0], "image_out.bmp");
+  }
+
   
   return 0;
 }
