@@ -537,3 +537,39 @@ void mirror_vertical(char *source_path, char *dest_path)
     free(mirrored);
     printf(">>> Image miroir vertical écrite dans : %s\n", dest_path);
 }
+
+void mirror_horizontal(char *source_path, char *dest_path)
+{
+    printf(">>> Début de mirror_horizontal\n");
+    unsigned char *data;
+    int width, height, channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (data == NULL) {
+        fprintf(stderr, "Erreur lors du chargement de l'image.\n");
+        return;
+    }
+
+    unsigned char *mirrored = malloc(width * height * channel_count);
+    if (mirrored == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire.\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int mirrored_x = width - 1 - x;
+            for (int c = 0; c < channel_count; c++) {
+                int src_idx = (y * width + x) * channel_count + c;
+                int dst_idx = (y * width + mirrored_x) * channel_count + c;
+                mirrored[dst_idx] = data[src_idx];
+            }
+        }
+    }
+
+    write_image_data(dest_path, mirrored, width, height);
+    free(data);
+    free(mirrored);
+    printf(">>> Image miroir horizontal écrite dans : %s\n", dest_path);
+}
