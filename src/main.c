@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     min_pixel(configuration.filenames[0]);
   }
   /*Creation branche dev */
-  if (strncmp(configuration.command, "max_pixel", 6) == 0)
+  if (strncmp(configuration.command, "max_pixel", 9) == 0)
   {
     max_pixel(configuration.filenames[0]);
   }

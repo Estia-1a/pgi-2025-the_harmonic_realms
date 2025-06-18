@@ -168,7 +168,7 @@ void min_pixel(char *source_path)
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    min_sum = 255 * 3;
+    min_sum = 255 * 3 +1;
     min_x = 0;
     min_y = 0;
     pixelRGB *pixel = NULL;
@@ -197,46 +197,43 @@ void min_pixel(char *source_path)
 
 void max_pixel(char *source_path)
 {
-    int max_sum = -1, max_x = 0, max_y = 0, y, x, sum;
+    int max_sum, max_x, max_y, y, x, sum;
     unsigned char *data;
     int width, height, channel_count;
-    
-    read_image_data(source_path, &data, &width, &height, &channel_count);
-    
-    pixelRGB *pixel_lu = NULL;
-    pixelRGB *max_pixel_val = NULL;
 
-    for (y = 0; y < height; y++) {
-        for (x = 0; x < width; x++) {
-            pixel_lu = get_pixel(data, width, height, channel_count, x, y);
-            if (pixel_lu != NULL) {
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    max_sum = 0;
+    max_x = 0;
+    max_y = 0;
+    pixelRGB *pixel = NULL;
+
+    for (y = 0; y < height; y++)
+    {
+        for (x = 0; x < width; x++)
+        {
+            pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
+            if (pixel_lu != NULL)
+            {
                 sum = pixel_lu->R + pixel_lu->G + pixel_lu->B;
-                if (sum > max_sum) {
+                if (sum > max_sum)
+                {
                     max_sum = sum;
                     max_x = x;
                     max_y = y;
-
-                    // libère l'ancien max_pixel_val
-                    if (max_pixel_val != NULL) {
-                        free(max_pixel_val);
-                    }
-
-                    // copie du nouveau pixel max
-                    max_pixel_val = pixel_lu;
-                } else {
-                    free(pixel_lu); // on libère celui qu'on n'utilise pas
+                    pixel = pixel_lu;
                 }
             }
         }
     }
 
-    if (max_pixel_val != NULL) {
-        printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, max_pixel_val->R, max_pixel_val->G, max_pixel_val->B);
-        free(max_pixel_val);
-    }
-
-    free(data);
+    printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel->R, pixel->G, pixel->B);
 }
+
+
+
+
+
+
 
 void stat_report (char *source_path){
     unsigned char *data = NULL;
@@ -649,3 +646,4 @@ void rotate_cw(char *source_path, char *dest_path)
     free(rotated);
     printf(">>> Image pivotée à 90° horaire enregistrée dans : %s\n", dest_path);
 }
+
