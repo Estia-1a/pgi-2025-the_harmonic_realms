@@ -1,0 +1,12 @@
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘scale_bilinear’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:635:27: warning: implicit declaration of function ‘floorf’ [-Wimplicit-function-declaration]
+  635 |             int x1 = (int)floorf(x_in);
+      |                           ^~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:10:1: note: include ‘<math.h>’ or provide a declaration of ‘floorf’
+    9 | #include <ctype.h>
+  +++ |+#include <math.h>
+   10 | 
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:635:27: warning: incompatible implicit declaration of built-in function ‘floorf’ [-Wbuiltin-declaration-mismatch]
+  635 |             int x1 = (int)floorf(x_in);
+      |                           ^~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:635:27: note: include ‘<math.h>’ or provide a declaration of ‘floorf’
