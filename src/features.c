@@ -329,17 +329,15 @@ void color_blue(char *source_path,char *dest_path )
         }
     }
     write_image_data("image_out.bmp", data, width, height);
-    return data;
+    free_image_data(data);
 }
 
-void color_green(char *source_path)
+void color_green(char *source_path, char *dest_path)
 {
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    
     pixelRGB *pixel = NULL;
-    
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
@@ -352,43 +350,35 @@ void color_green(char *source_path)
             }
         }
     }
-    
-    write_image_data("images/output/image_out3.bmp", data, width, height);
-    return data;
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
 }
-void color_desaturate(char *source_path) {
+
+void color_desaturate(char *source_path, char *dest_path) {
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int index = (y * width + x) * channel_count;
-
             unsigned char R = data[index];
             unsigned char G = data[index + 1];
             unsigned char B = data[index + 2];
-
             unsigned char min_val = R;
             if (G < min_val) min_val = G;
             if (B < min_val) min_val = B;
-
             unsigned char max_val = R;
             if (G > max_val) max_val = G;
             if (B > max_val) max_val = B;
-
             unsigned char new_val = (min_val + max_val) / 2;
-
             data[index] = new_val;
             data[index + 1] = new_val;
             data[index + 2] = new_val;
         }
     }
 
-    write_image_data("images/output/image_out2.bmp", data, width, height);
-    free(data);
-    printf("Image désaturée enregistrée sous le nom : image_out.bmp\n");
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
 
 }
 

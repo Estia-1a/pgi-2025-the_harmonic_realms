@@ -96,12 +96,12 @@ int main(int argc, char **argv)
 
   if (strncmp(configuration.command, "color_green", 14) == 0)
   {
-    color_green(configuration.filenames[0]);
+    color_green(configuration.filenames[0], configuration.filenames[1]);
   }
 
   if (strncmp(configuration.command, "color_desaturate", 16) == 0) 
   {
-    color_desaturate(configuration.filenames[0]);
+    color_desaturate(configuration.filenames[0], configuration.filenames[1]);
   }
 
   if (strncmp(configuration.command, "color_gray", 12) == 0)
