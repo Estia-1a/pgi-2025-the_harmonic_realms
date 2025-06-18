@@ -89,7 +89,7 @@ int main(int argc, char **argv)
     color_red(configuration.filenames[0]);
   }
 
-    if (strncmp(configuration.command, "color_blue", 13) == 0)
+  if (strncmp(configuration.command, "color_blue", 13) == 0)
   {
     color_blue(configuration.filenames[0]);
   }
@@ -108,6 +108,32 @@ int main(int argc, char **argv)
   {
     color_gray(configuration.filenames[0]);
   }
-  
+
+  if (strncmp(configuration.command, "color_gray_luminance", 12) == 0)
+  {
+    color_gray_luminance(configuration.filenames[0], configuration.filenames[1]);
+  }
+
+  else if (strcmp(configuration.command, "mirror_total") == 0) 
+  {
+    mirror_total(configuration.filenames[0], "image_out.bmp");
+  }
+
+  else if (strcmp(configuration.command, "mirror_vertical") == 0) {
+    mirror_vertical(configuration.filenames[0], "image_out.bmp");
+  }
+
+  else if (strcmp(configuration.command, "mirror_horizontal") == 0) {
+    mirror_horizontal(configuration.filenames[0], "image_out.bmp");
+  }
+
+  else if (strcmp(configuration.command, "rotate_acw") == 0) {
+    rotate_acw(configuration.filenames[0], "image_out.bmp");
+  }
+
+  else if (strcmp(configuration.command, "rotate_cw") == 0) {
+    rotate_cw(configuration.filenames[0], "image_out.bmp");
+}
+
   return 0;
 }
