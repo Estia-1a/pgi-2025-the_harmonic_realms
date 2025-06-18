@@ -46,7 +46,6 @@ void tenth_pixel(char *source_path)
     printf("tenth_pixel : %d, %d, %d\n", data[27],data[28], data[29] );
 }
 
-
 void min_component(char *source_path, char component)
 {
     unsigned char *data;
@@ -206,12 +205,6 @@ void max_pixel(char *source_path)
 
     printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel->R, pixel->G, pixel->B);
 }
-
-
-
-
-
-
 
 void stat_report (char *source_path){
     unsigned char *data = NULL;
