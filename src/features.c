@@ -51,24 +51,14 @@ void min_component(char *source_path, char component)
 {
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-
     char comp_upper = toupper(component);
     int channel_offset;
-
     if (comp_upper == 'R') channel_offset = 0;
     else if (comp_upper == 'G') channel_offset = 1;
     else if (comp_upper == 'B') channel_offset = 2;
-    else {
-        printf("Erreur: Composante invalide. Utilisez R, G ou B.\n");
-        free(data);
-        return;
-    }
-
     int min_value = 256;
     int min_x = 0, min_y = 0;
-
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
@@ -83,7 +73,6 @@ void min_component(char *source_path, char component)
             }
         }
     }
-
     printf("min_component %c (%d, %d): %d\n", comp_upper, min_x, min_y, min_value);
     free(data);
 }
@@ -101,11 +90,9 @@ void max_component(char *source_path, char component)
 {
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
     int component_offset;
     char comp_upper = toupper(component);
-
     if (comp_upper == 'R')
     {
         component_offset = 0;
@@ -118,13 +105,6 @@ void max_component(char *source_path, char component)
     {
         component_offset = 2;
     }
-    else
-    {
-        printf("Erreur: Composante invalide. Utilisez R, G ou B.\n");
-        free(data);
-        return;
-    }
-
     unsigned char max_value = 0;
     int max_x = 0, max_y = 0;
     for (int y = 0; y < height; y++)
@@ -143,9 +123,7 @@ void max_component(char *source_path, char component)
             }
         }
     }
-
     printf("max_component %c (%d, %d): %d\n", comp_upper, max_x, max_y, max_value);
-
     free(data);
 }
 
@@ -168,7 +146,7 @@ void min_pixel(char *source_path)
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    min_sum = 255 * 3 +1;
+    min_sum = 255 * 3 + 1;
     min_x = 0;
     min_y = 0;
     pixelRGB *pixel = NULL;
@@ -294,35 +272,28 @@ void stat_report (char *source_path){
     free(data);
 }
 
-void color_invert(char *source_path) {
+void color_invert(char *source_path, char *dest_path) {
     unsigned char *data;
     int width, height, channel_count;
-
-    // Lecture de l’image source
     read_image_data(source_path, &data, &width, &height, &channel_count);
-
-    int size = width * height * channel_count;
-
-    // Inversion de chaque composante R, G, B
-    for (int i = 0; i < size; i++) {
-        data[i] = 255 - data[i];
-    }
-
-    // Sauvegarde de l'image modifiée
-    write_image_data("images/output/image_out.bmp", data, width, height);
-    free(data);
-
-    printf("Image inversée générée sous le nom : image_out.bmp\n");
+   for (int y =0; y<height ; y++){
+        for(int x =0 ; x<width; x++){
+            int i = (y*width +x) * channel_count;
+            data[i]=255 - data[i];
+            data[i+1]= 255 - data[i+1];
+            data[i+2]= 255 - data[i+2];
+        }
+   }
+   write_image_data("image_out.bmp", data, width, height);
+   free_image_data(data);
 }
 
-void color_red(char *source_path)
+void color_red(char *source_path, char *dest_path)
 {
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    
     pixelRGB *pixel = NULL;
-    
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
@@ -335,19 +306,16 @@ void color_red(char *source_path)
             }
         }
     }
-    
-    write_image_data("images/output/image_out.bmp", data, width, height);
-    return data;
+    write_image_data("image_out.bmp", data, width, height);
+    free_image_data(data);
 }
 
-void color_blue(char *source_path)
+void color_blue(char *source_path,char *dest_path )
 {
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    
     pixelRGB *pixel = NULL;
-    
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
@@ -360,8 +328,7 @@ void color_blue(char *source_path)
             }
         }
     }
-    
-    write_image_data("images/output/image_out2.bmp", data, width, height);
+    write_image_data("image_out.bmp", data, width, height);
     return data;
 }
 
@@ -424,6 +391,7 @@ void color_desaturate(char *source_path) {
     printf("Image désaturée enregistrée sous le nom : image_out.bmp\n");
 
 }
+
 void color_gray(char *source_path)
 {
     unsigned char *data;
