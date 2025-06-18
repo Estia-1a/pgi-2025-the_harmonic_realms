@@ -135,5 +135,25 @@ int main(int argc, char **argv)
     rotate_cw(configuration.filenames[0], "image_out.bmp");
 }
 
+
+else if (strncmp(configuration.command, "scale_bilinear", 14) == 0) {
+    float scale = atof(configuration.arguments[0]);
+    scale_bilinear(configuration.filenames[0], scale);
+}
+
+else if (strncmp(configuration.command, "scale_nearest", 13) == 0) {
+    float scale = atof(configuration.arguments[0]);
+    scale_nearest(configuration.filenames[0], scale);
+}
+
+else if (strncmp(configuration.command, "scale_crop", 10) == 0) {
+    int center_x = atoi(configuration.arguments[0]);
+    int center_y = atoi(configuration.arguments[1]);
+    int width = atoi(configuration.arguments[2]);
+    int height = atoi(configuration.arguments[3]);
+    scale_crop(configuration.filenames[0], center_x, center_y, width, height);
+}
+
+
   return 0;
 }

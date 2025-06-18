@@ -683,3 +683,120 @@ void rotate_cw(char *source_path, char *dest_path)
     free(rotated);
     printf(">>> Image pivotée à 90° horaire enregistrée dans : %s\n", dest_path);
 }
+void scale_bilinear(char *source_path, float scale) {
+    unsigned char *data;
+    int width, height, channels;
+
+    read_image_data(source_path, &data, &width, &height, &channels);
+
+    int new_width = (int)(width * scale);
+    int new_height = (int)(height * scale);
+
+    unsigned char *new_data = malloc(new_width * new_height * channels);
+    if (new_data == NULL) {
+        fprintf(stderr, "Erreur d'allocation mémoire\n");
+        free(data);
+        return;
+    }
+
+    for (int y_out = 0; y_out < new_height; y_out++) {
+        for (int x_out = 0; x_out < new_width; x_out++) {
+
+            float x_in = x_out / scale;
+            float y_in = y_out / scale;
+
+            int x1 = (int)floorf(x_in);
+            int x2 = x1 + 1;
+            int y1 = (int)floorf(y_in);
+            int y2 = y1 + 1;
+
+            float dx = x_in - x1;
+            float dy = y_in - y1;
+
+            if (x2 >= width)  x2 = width - 1;
+            if (y2 >= height) y2 = height - 1;
+            if (x1 >= width)  x1 = width - 1;
+            if (y1 >= height) y1 = height - 1;
+
+            for (int c = 0; c < channels; c++) {
+                int index_q11 = (y1 * width + x1) * channels + c;
+                int index_q12 = (y2 * width + x1) * channels + c;
+                int index_q21 = (y1 * width + x2) * channels + c;
+                int index_q22 = (y2 * width + x2) * channels + c;
+
+                float Q11 = data[index_q11];
+                float Q12 = data[index_q12];
+                float Q21 = data[index_q21];
+                float Q22 = data[index_q22];
+
+                float value = Q11 * (1 - dx) * (1 - dy) +
+                              Q21 * dx * (1 - dy) +
+                              Q12 * (1 - dx) * dy +
+                              Q22 * dx * dy;
+
+                new_data[(y_out * new_width + x_out) * channels + c] = (unsigned char)value;
+            }
+        }
+    }
+
+    write_image_data("image_out.bmp", new_data, new_width, new_height);
+
+    free(data);
+    free(new_data);
+}
+void scale_nearest(char *source_path, float scale) {
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int new_width = (int)(width * scale);
+    int new_height = (int)(height * scale);
+
+    unsigned char *new_data = malloc(new_width * new_height * channel_count);
+
+    for (int y = 0; y < new_height; y++) {
+        for (int x = 0; x < new_width; x++) {
+            int src_x = (int)(x / scale);
+            int src_y = (int)(y / scale);
+
+            for (int c = 0; c < channel_count; c++) {
+                new_data[(y * new_width + x) * channel_count + c] =
+                    data[(src_y * width + src_x) * channel_count + c];
+            }
+        }
+    }
+
+    write_image_data("image_out.bmp", new_data, new_width, new_height);
+    free(data);
+    free(new_data);
+}
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
+    unsigned char *data;
+    int width, height, channel_count;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int start_x = center_x - crop_width / 2;
+    int start_y = center_y - crop_height / 2;
+
+    // Vérification des bornes
+    if (start_x < 0) start_x = 0;
+    if (start_y < 0) start_y = 0;
+    if (start_x + crop_width > width) crop_width = width - start_x;
+    if (start_y + crop_height > height) crop_height = height - start_y;
+
+    unsigned char *new_data = malloc(crop_width * crop_height * channel_count);
+
+    for (int y = 0; y < crop_height; y++) {
+        for (int x = 0; x < crop_width; x++) {
+            for (int c = 0; c < channel_count; c++) {
+                new_data[(y * crop_width + x) * channel_count + c] =
+                    data[((start_y + y) * width + (start_x + x)) * channel_count + c];
+            }
+        }
+    }
+
+    write_image_data("image_out.bmp", new_data, crop_width, crop_height);
+
+    free(data);
+    free(new_data);
+}
