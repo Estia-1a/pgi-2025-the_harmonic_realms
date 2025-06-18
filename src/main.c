@@ -99,6 +99,11 @@ int main(int argc, char **argv)
     color_green(configuration.filenames[0]);
   }
 
+  if (strncmp(configuration.command, "color_desaturate", 16) == 0) 
+  {
+    color_desaturate(configuration.filenames[0]);
+  }
+
   if (strncmp(configuration.command, "color_gray", 12) == 0)
   {
     color_gray(configuration.filenames[0]);
