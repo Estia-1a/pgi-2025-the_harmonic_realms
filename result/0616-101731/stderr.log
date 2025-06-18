@@ -1,0 +1,28 @@
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_red’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:343:12: warning: ‘return’ with a value, in function returning void
+  343 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:321:6: note: declared here
+  321 | void color_red(char *source_path)
+      |      ^~~~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_blue’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:368:12: warning: ‘return’ with a value, in function returning void
+  368 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:346:6: note: declared here
+  346 | void color_blue(char *source_path)
+      |      ^~~~~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_green’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:393:12: warning: ‘return’ with a value, in function returning void
+  393 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:371:6: note: declared here
+  371 | void color_green(char *source_path)
+      |      ^~~~~~~~~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c: In function ‘color_gray’:
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:421:12: warning: ‘return’ with a value, in function returning void
+  421 |     return data;
+      |            ^~~~
+/home/runner/work/pgi-2025-the_harmonic_realms/pgi-2025-the_harmonic_realms/src/features.c:396:6: note: declared here
+  396 | void color_gray(char *source_path)
+      |      ^~~~~~~~~~
