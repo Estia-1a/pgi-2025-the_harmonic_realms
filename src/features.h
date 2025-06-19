@@ -16,7 +16,6 @@ void max_component(char *source_path, char component);
 
 void min_component(char* source_path, char component);
 
-
 void print_pixel( char *filename, int x, int y );
 
 void min_pixel( char *filename );
@@ -28,7 +27,6 @@ void stat_report (char *source_path);
 void color_invert(char *source_path, char *dest_path);
 
 void color_desaturate(char *source_path, char *dest_path);
-
 
 void color_red (char *source_path, char *dest_path );
 

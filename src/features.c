@@ -7,6 +7,7 @@
 
 #include <limits.h>
 #include <ctype.h>
+#include <math.h>
 
 
 /**
@@ -53,16 +54,16 @@ void min_component(char *source_path, char component)
     read_image_data(source_path, &data, &width, &height, &channel_count);
     char comp_upper = toupper(component);
     int channel_offset;
-    if (comp_upper == 'R') channel_offset = 0;
-    else if (comp_upper == 'G') channel_offset = 1;
-    else if (comp_upper == 'B') channel_offset = 2;
+    if (comp_upper =='R') channel_offset = 0;
+    else if (comp_upper =='G') channel_offset =1;
+    else if (comp_upper =='B') channel_offset =2;
     int min_value = 256;
     int min_x = 0, min_y = 0;
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
         {
-            int index = (y * width + x) * channel_count + channel_offset;
+            int index = (y * width + x) * channel_count +channel_offset;
             int value = data[index];
             if (value < min_value)
             {
@@ -91,20 +92,20 @@ void max_component(char *source_path, char component)
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
     int component_offset;
-    char comp_upper = toupper(component);
-    if (comp_upper == 'R')
+    char comp_upper =toupper(component);
+    if (comp_upper =='R')
     {
-        component_offset = 0;
+        component_offset =0;
     }
     else if (comp_upper == 'G')
     {
-        component_offset = 1;
+        component_offset =1;
     }
-    else if (comp_upper == 'B')
+    else if (comp_upper =='B')
     {
-        component_offset = 2;
+        component_offset =2;
     }
-    unsigned char max_value = 0;
+    unsigned char max_value =0;
     int max_x = 0, max_y = 0;
     for (int y = 0; y < height; y++)
     {
@@ -112,13 +113,12 @@ void max_component(char *source_path, char component)
         {
             int pixel_index = (y * width + x) * channel_count;
             unsigned char current_value = data[pixel_index + component_offset];
-
             if (current_value > max_value ||
-                (current_value == max_value && (y < max_y || (y == max_y && x < max_x))))
+                (current_value ==max_value && (y < max_y|| (y ==max_y && x < max_x))))
             {
-                max_value = current_value;
-                max_x = x;
-                max_y = y;
+                max_value =current_value;
+                max_x =x;
+                max_y =y;
             }
         }
     }
@@ -133,7 +133,7 @@ void print_pixel(char *filename, int x, int y)
     read_image_data(filename, &data, &width, &height, &channel_count);
     pixelRGB *pixel = get_pixel(data, width, height, channel_count, x, y);
     printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel->R, pixel->G, pixel->B);
-    if (data != NULL)
+    if (data !=NULL)
     {
         free(data);
     }
@@ -145,30 +145,28 @@ void min_pixel(char *source_path)
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    min_sum = 255 * 3 + 1;
+    min_sum = 255 * 3 +1;
     min_x = 0;
     min_y = 0;
     pixelRGB *pixel = NULL;
-
-    for (y = 0; y < height; y++)
+    for (y =0; y < height; y++)
     {
-        for (x = 0; x < width; x++)
+        for (x = 0; x <width; x++)
         {
-            pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
+            pixelRGB *pixel_lu =get_pixel(data, width, height, channel_count, x, y);
             if (pixel_lu != NULL)
             {
                 sum = pixel_lu->R + pixel_lu->G + pixel_lu->B;
-                if (sum < min_sum)
+                if (sum <min_sum)
                 {
-                    min_sum = sum;
-                    min_x = x;
-                    min_y = y;
-                    pixel = pixel_lu;
+                    min_sum =sum;
+                    min_x =x;
+                    min_y =y;
+                    pixel =pixel_lu;
                 }
             }
         }
     }
-
     printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, pixel->R, pixel->G, pixel->B);
 }
 
@@ -177,32 +175,29 @@ void max_pixel(char *source_path)
     int max_sum, max_x, max_y, y, x, sum;
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
     max_sum = -1;
     max_x = 0;
     max_y = 0;
     pixelRGB *pixel = NULL;
-
-    for (y = 0; y < height; y++)
+    for (y = 0; y< height; y++)
     {
-        for (x = 0; x < width; x++)
+        for (x =0; x < width; x++)
         {
-            pixelRGB *pixel_lu = get_pixel(data, width, height, channel_count, x, y);
+            pixelRGB *pixel_lu =get_pixel(data, width, height, channel_count, x, y);
             if (pixel_lu != NULL)
             {
-                sum = pixel_lu->R + pixel_lu->G + pixel_lu->B;
+                sum= pixel_lu->R + pixel_lu->G + pixel_lu->B;
                 if (sum > max_sum)
                 {
-                    max_sum = sum;
-                    max_x = x;
-                    max_y = y;
-                    pixel = pixel_lu;
+                    max_sum =sum;
+                    max_x =x;
+                    max_y =y;
+                    pixel =pixel_lu;
                 }
             }
         }
     }
-
     printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, pixel->R, pixel->G, pixel->B);
 }
 
@@ -210,57 +205,35 @@ void stat_report (char *source_path){
     unsigned char *data = NULL;
     int width, height, channels;
     int size;
-
-    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
-        fprintf(stderr, "Erreur de lecture de l'image : %s\n", source_path);
-        return;
-    }
-
     size = width * height * channels;
-
     int max_pixel = 0;
     int min_pixel = 255;
-    int max_r = 0, max_g = 0, max_b = 0;
-    int min_r = 255, min_g = 255, min_b = 255;
-
-    for (int i = 0; i < size; i += channels) {
-        int r = data[i];
-        int g = data[i + 1];
-        int b = data[i + 2];
+    int max_r =0, max_g= 0, max_b = 0;
+    int min_r =255, min_g= 255, min_b = 255;
+    for (int i =0; i < size; i += channels) {
+        int r =data[i];
+        int g =data[i +1];
+        int b =data[i +2];
         int pixel_intensity = (r + g + b) / 3;
-
-        // Max / min sur l'intensité du pixel
-        if (pixel_intensity > max_pixel) max_pixel = pixel_intensity;
-        if (pixel_intensity < min_pixel) min_pixel = pixel_intensity;
-
-        // Composantes
-        if (r > max_r) max_r = r;
-        if (g > max_g) max_g = g;
-        if (b > max_b) max_b = b;
-
-        if (r < min_r) min_r = r;
-        if (g < min_g) min_g = g;
-        if (b < min_b) min_b = b;
+        if (pixel_intensity > max_pixel) max_pixel =pixel_intensity;
+        if (pixel_intensity < min_pixel) min_pixel =pixel_intensity;
+        if (r > max_r) max_r =r;
+        if (g > max_g) max_g =g;
+        if (b > max_b) max_b =b;
+        if (r < min_r) min_r =r;
+        if (g < min_g) min_g =g;
+        if (b < min_b) min_b =b;
     }
-
     FILE *out = fopen("stat_report.txt", "w");
-    if (out == NULL) {
-        fprintf(stderr, "Erreur : impossible de créer stat_report.txt\n");
-        free(data);
-        return;
-    }
-
     fprintf(out, "max_pixel: %d\n\n", max_pixel);
     fprintf(out, "min_pixel: %d\n\n", min_pixel);
-    fprintf(out, "max_component R: %d\n\n", max_r);
-    fprintf(out, "max_component G: %d\n\n", max_g);
+    fprintf(out, "max_component R: %d\n\n",max_r);
+    fprintf(out, "max_component G: %d\n\n",max_g);
     fprintf(out, "max_component B: %d\n\n", max_b);
-    fprintf(out, "min_component R: %d\n\n", min_r);
+    fprintf(out, "min_component R: %d\n\n",min_r);
     fprintf(out, "min_component G: %d\n\n", min_g);
     fprintf(out, "min_component B: %d\n", min_b);
-
     printf("fichier cree");
-
     fclose(out);
     free(data);
 }
@@ -272,9 +245,9 @@ void color_invert(char *source_path, char *dest_path) {
    for (int y =0; y<height ; y++){
         for(int x =0 ; x<width; x++){
             int i = (y*width +x) * channel_count;
-            data[i]=255 - data[i];
-            data[i+1]= 255 - data[i+1];
-            data[i+2]= 255 - data[i+2];
+            data[i]=255 -data[i];
+            data[i+1]= 255 -data[i+1];
+            data[i+2]= 255 -data[i+2];
         }
    }
    write_image_data("image_out.bmp", data, width, height);
@@ -292,10 +265,10 @@ void color_red(char *source_path, char *dest_path)
         for (int x = 0; x < width; x++)
         {
             pixel = get_pixel(data, width, height, channel_count, x, y);
-            if (pixel != NULL)
+            if (pixel !=NULL)
             {
-                pixel->G = 0;
-                pixel->B = 0;
+                pixel->G =0;
+                pixel->B =0;
             }
         }
     }
@@ -309,15 +282,15 @@ void color_blue(char *source_path,char *dest_path )
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
     pixelRGB *pixel = NULL;
-    for (int y = 0; y < height; y++)
+    for (int y =0; y <height; y++)
     {
-        for (int x = 0; x < width; x++)
+        for (int x =0; x <width; x++)
         {
             pixel = get_pixel(data, width, height, channel_count, x, y);
             if (pixel != NULL)
             {
-                pixel->R = 0;
-                pixel->G = 0;
+                pixel->R =0;
+                pixel->G =0;
             }
         }
     }
@@ -330,7 +303,7 @@ void color_green(char *source_path, char *dest_path)
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    pixelRGB *pixel = NULL;
+    pixelRGB *pixel =NULL;
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
@@ -338,8 +311,8 @@ void color_green(char *source_path, char *dest_path)
             pixel = get_pixel(data, width, height, channel_count, x, y);
             if (pixel != NULL)
             {
-                pixel->R = 0;
-                pixel->B = 0;
+                pixel->R =0;
+                pixel->B =0;
             }
         }
     }
@@ -354,24 +327,23 @@ void color_desaturate(char *source_path, char *dest_path) {
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int index = (y * width + x) * channel_count;
-            unsigned char R = data[index];
-            unsigned char G = data[index + 1];
-            unsigned char B = data[index + 2];
-            unsigned char min_val = R;
-            if (G < min_val) min_val = G;
-            if (B < min_val) min_val = B;
-            unsigned char max_val = R;
-            if (G > max_val) max_val = G;
-            if (B > max_val) max_val = B;
-            unsigned char new_val = (min_val + max_val) / 2;
+            unsigned char R =data[index];
+            unsigned char G =data[index +1];
+            unsigned char B =data[index +2];
+            unsigned char min_val =R;
+            if (G < min_val) min_val =G;
+            if (B < min_val) min_val =B;
+            unsigned char max_val =R;
+            if (G > max_val) max_val =G;
+            if (B > max_val) max_val =B;
+            unsigned char new_val =(min_val + max_val) /2;
             data[index] = new_val;
-            data[index + 1] = new_val;
-            data[index + 2] = new_val;
+            data[index +1] =new_val;
+            data[index +2] =new_val;
         }
     }
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
-
 }
 
 void color_gray(char *source_path, char *dest_path)
@@ -384,17 +356,16 @@ void color_gray(char *source_path, char *dest_path)
     {
         for (int x = 0; x < width; x++)
         {
-            pixel = get_pixel(data, width, height, channel_count, x, y);
+            pixel =get_pixel(data, width, height, channel_count, x, y);
             if (pixel != NULL)
             {
-                unsigned char value = (pixel->R + pixel->G + pixel->B) / 3;
-                pixel->R = value;
-                pixel->G = value;
-                pixel->B = value;
+                unsigned char value = (pixel->R +pixel->G +pixel->B) / 3;
+                pixel->R =value;
+                pixel->G =value;
+                pixel->B =value;
             }
         }
     }
-    
     write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
 }
@@ -406,13 +377,23 @@ void color_gray_luminance(char *source_path, char *dest_path)
     read_image_data(source_path, &data, &width, &height, &channel_count);
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            unsigned int idx = (y * width + x) * channel_count;
-            unsigned char R = data[idx];
-            unsigned char G = data[idx + 1];
-            unsigned char B = data[idx + 2];
-            int gray = (int)(0.299 * R + 0.587 * G + 0.114 * B);
-            gray = gray > 255 ? 255 : (gray < 0 ? 0 : gray);
-            data[idx]     = gray;
+            unsigned int idx = (y * width + x) *channel_count;
+            unsigned char R =data[idx];
+            unsigned char G =data[idx +1];
+            unsigned char B =data[idx +2];
+            int gray = (int)(0.299 *R +0.587 *G +0.114 *B);
+            if (gray > 255) {
+                gray = 255;
+                } 
+            else {
+                if (gray < 0) {
+                    gray = 0;
+                    } 
+                else {
+                    gray = gray;
+                    }
+                }
+            data[idx] = gray;
             data[idx + 1] = gray;
             data[idx + 2] = gray;
         }
@@ -423,101 +404,55 @@ void color_gray_luminance(char *source_path, char *dest_path)
 
 void mirror_total(char *source_path, char *dest_path)
 {
-    printf(">>> Début de mirror_total\n");
-
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    if (data == NULL) {
-        fprintf(stderr, "Erreur : l'image n'a pas été chargée correctement.\n");
-        return;
-    }
-
-    // Allouer un nouveau tableau pour stocker l'image miroir
-    unsigned char *mirrored_data = malloc(width * height * channel_count);
-    if (mirrored_data == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
-        free(data);
-        return;
-    }
-
-    for (int y = 0; y < height; y++) {
+    unsigned char *mirrored_data =malloc(width *height *channel_count);
+    for (int y = 0; y <height; y++) {
         for (int x = 0; x < width; x++) {
-            int src_idx = (y * width + x) * channel_count;
+            int src_idx = (y * width + x) *channel_count;
 
-            int mirrored_x = width - 1 - x;
-            int mirrored_y = height - 1 - y;
-            int dst_idx = (mirrored_y * width + mirrored_x) * channel_count;
+            int mirrored_x =width -1 -x;
+            int mirrored_y =height -1 -y;
+            int dst_idx = (mirrored_y *width +mirrored_x) *channel_count;
 
-            for (int c = 0; c < channel_count; c++) {
-                mirrored_data[dst_idx + c] = data[src_idx + c];
+            for (int c = 0; c <channel_count; c++) {
+                mirrored_data[dst_idx + c] = data[src_idx +c];
             }
         }
     }
-
     write_image_data(dest_path, mirrored_data, width, height);
     free(data);
     free(mirrored_data);
-
-    printf(">>> Image miroir complète générée : %s\n", dest_path);
 }
 
 void mirror_vertical(char *source_path, char *dest_path)
 {
-    printf(">>> Début de mirror_vertical\n");
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    if (data == NULL) {
-        fprintf(stderr, "Erreur lors du chargement de l'image.\n");
-        return;
-    }
-
     unsigned char *mirrored = malloc(width * height * channel_count);
-    if (mirrored == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
-        free(data);
-        return;
-    }
-
-    for (int y = 0; y < height; y++) {
-        int mirrored_y = height - 1 - y;
+    for (int y = 0; y <height; y++) {
+        int mirrored_y = height-1-y;
         for (int x = 0; x < width; x++) {
-            for (int c = 0; c < channel_count; c++) {
-                int src_idx = (y * width + x) * channel_count + c;
-                int dst_idx = (mirrored_y * width + x) * channel_count + c;
-                mirrored[dst_idx] = data[src_idx];
+            for (int c = 0; c <channel_count; c++) {
+                int src_idx = (y *width +x) *channel_count +c;
+                int dst_idx =(mirrored_y *width + x) *channel_count +c;
+                mirrored[dst_idx] =data[src_idx];
             }
         }
     }
-
     write_image_data(dest_path, mirrored, width, height);
     free(data);
     free(mirrored);
-    printf(">>> Image miroir vertical écrite dans : %s\n", dest_path);
 }
 
 void mirror_horizontal(char *source_path, char *dest_path)
 {
-    printf(">>> Début de mirror_horizontal\n");
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    if (data == NULL) {
-        fprintf(stderr, "Erreur lors du chargement de l'image.\n");
-        return;
-    }
-
     unsigned char *mirrored = malloc(width * height * channel_count);
-    if (mirrored == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
-        free(data);
-        return;
-    }
-
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int mirrored_x = width - 1 - x;
@@ -528,140 +463,89 @@ void mirror_horizontal(char *source_path, char *dest_path)
             }
         }
     }
-
     write_image_data(dest_path, mirrored, width, height);
     free(data);
     free(mirrored);
-    printf(">>> Image miroir horizontal écrite dans : %s\n", dest_path);
 }
 
 void rotate_acw(char *source_path, char *dest_path)
 {
-    printf(">>> Début de rotate_acw\n");
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    if (data == NULL) {
-        fprintf(stderr, "Erreur : image non chargée.\n");
-        return;
-    }
-
-    int new_width = height;
-    int new_height = width;
-
-    unsigned char *rotated = malloc(new_width * new_height * channel_count);
-    if (rotated == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
-        free(data);
-        return;
-    }
-
+    int new_width =height;
+    int new_height =width;
+    unsigned char *rotated = malloc(new_width * new_height *channel_count);
     for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            for (int c = 0; c < channel_count; c++) {
-                int src_idx = (y * width + x) * channel_count + c;
-                int dst_idx = ((width - 1 - x) * new_width + y) * channel_count + c;
-                rotated[dst_idx] = data[src_idx];
+        for (int x =0; x < width; x++) {
+            for (int c =0; c <channel_count; c++) {
+                int src_idx= (y *width +x) *channel_count +c;
+                int dst_idx= ((width -1 -x) *new_width +y) *channel_count +c;
+                rotated[dst_idx] =data[src_idx];
             }
         }
     }
-
     write_image_data(dest_path, rotated, new_width, new_height);
     free(data);
     free(rotated);
-    printf(">>> Image pivotée à 90° anti-horaire enregistrée dans : %s\n", dest_path);
 }
 
 void rotate_cw(char *source_path, char *dest_path)
 {
-    printf(">>> Début de rotate_cw\n");
     unsigned char *data;
     int width, height, channel_count;
-
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    if (data == NULL) {
-        fprintf(stderr, "Erreur : image non chargée.\n");
-        return;
-    }
-
     int new_width = height;
     int new_height = width;
-
     unsigned char *rotated = malloc(new_width * new_height * channel_count);
-    if (rotated == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire.\n");
-        free(data);
-        return;
-    }
-
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             for (int c = 0; c < channel_count; c++) {
-                int src_idx = (y * width + x) * channel_count + c;
-                int dst_idx = (x * new_width + (new_width - 1 - y)) * channel_count + c;
-                rotated[dst_idx] = data[src_idx];
+                int src_idx = (y *width +x) *channel_count +c;
+                int dst_idx = (x *new_width + (new_width - 1 - y)) * channel_count +c;
+                rotated[dst_idx] =data[src_idx];
             }
         }
     }
-
     write_image_data(dest_path, rotated, new_width, new_height);
     free(data);
     free(rotated);
-    printf(">>> Image pivotée à 90° horaire enregistrée dans : %s\n", dest_path);
 }
 
 void scale_bilinear(char *source_path, float scale) {
     unsigned char *data;
     int width, height, channels;
-
     read_image_data(source_path, &data, &width, &height, &channels);
-
     int new_width = (int)(width * scale);
     int new_height = (int)(height * scale);
-
     unsigned char *new_data = malloc(new_width * new_height * channels);
-    if (new_data == NULL) {
-        fprintf(stderr, "Erreur d'allocation mémoire\n");
-        free(data);
-        return;
-    }
-
     for (int y_out = 0; y_out < new_height; y_out++) {
         for (int x_out = 0; x_out < new_width; x_out++) {
-
             float x_in = x_out / scale;
             float y_in = y_out / scale;
-
             int x1 = (int)floorf(x_in);
             int x2 = x1 + 1;
             int y1 = (int)floorf(y_in);
             int y2 = y1 + 1;
-
             float dx = x_in - x1;
             float dy = y_in - y1;
-
-            if (x2 >= width)  x2 = width - 1;
-            if (y2 >= height) y2 = height - 1;
-            if (x1 >= width)  x1 = width - 1;
-            if (y1 >= height) y1 = height - 1;
-
+            if (x2 >=width) x2 =width - 1;
+            if (y2 >=height) y2 =height - 1;
+            if (x1 >=width) x1 =width - 1;
+            if (y1 >=height) y1 =height - 1;
             for (int c = 0; c < channels; c++) {
-                int index_q11 = (y1 * width + x1) * channels + c;
-                int index_q12 = (y2 * width + x1) * channels + c;
-                int index_q21 = (y1 * width + x2) * channels + c;
-                int index_q22 = (y2 * width + x2) * channels + c;
-
-                float Q11 = data[index_q11];
-                float Q12 = data[index_q12];
-                float Q21 = data[index_q21];
-                float Q22 = data[index_q22];
-
-                float value = Q11 * (1 - dx) * (1 - dy) +
-                              Q21 * dx * (1 - dy) +
-                              Q12 * (1 - dx) * dy +
+                int index_q11 = (y1 *width +x1) * channels + c;
+                int index_q12 = (y2 *width +x1) * channels + c;
+                int index_q21 = (y1 *width +x2) * channels + c;
+                int index_q22 = (y2 *width +x2) * channels + c;
+                float Q11 =data[index_q11];
+                float Q12 =data[index_q12];
+                float Q21 =data[index_q21];
+                float Q22 =data[index_q22];
+                float value = Q11 * (1 -dx) * (1 -dy) +
+                              Q21 * dx * (1 -dy) +
+                              Q12 * (1 -dx) *dy +
                               Q22 * dx * dy;
-
                 new_data[(y_out * new_width + x_out) * channels + c] = (unsigned char)value;
             }
         }
@@ -677,24 +561,19 @@ void scale_nearest(char *source_path, float scale) {
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-
     int new_width = (int)(width * scale);
     int new_height = (int)(height * scale);
-
     unsigned char *new_data = malloc(new_width * new_height * channel_count);
-
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
             int src_x = (int)(x / scale);
             int src_y = (int)(y / scale);
-
             for (int c = 0; c < channel_count; c++) {
                 new_data[(y * new_width + x) * channel_count + c] =
                     data[(src_y * width + src_x) * channel_count + c];
             }
         }
     }
-
     write_image_data("image_out.bmp", new_data, new_width, new_height);
     free(data);
     free(new_data);
@@ -704,18 +583,13 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
     unsigned char *data;
     int width, height, channel_count;
     read_image_data(source_path, &data, &width, &height, &channel_count);
-
     int start_x = center_x - crop_width / 2;
     int start_y = center_y - crop_height / 2;
-
-    // Vérification des bornes
     if (start_x < 0) start_x = 0;
     if (start_y < 0) start_y = 0;
     if (start_x + crop_width > width) crop_width = width - start_x;
     if (start_y + crop_height > height) crop_height = height - start_y;
-
     unsigned char *new_data = malloc(crop_width * crop_height * channel_count);
-
     for (int y = 0; y < crop_height; y++) {
         for (int x = 0; x < crop_width; x++) {
             for (int c = 0; c < channel_count; c++) {
@@ -724,9 +598,7 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
             }
         }
     }
-
     write_image_data("image_out.bmp", new_data, crop_width, crop_height);
-
     free(data);
     free(new_data);
 }
