@@ -179,7 +179,7 @@ void max_pixel(char *source_path)
     int width, height, channel_count;
 
     read_image_data(source_path, &data, &width, &height, &channel_count);
-    max_sum = 0;
+    max_sum = -1;
     max_x = 0;
     max_y = 0;
     pixelRGB *pixel = NULL;
@@ -610,6 +610,7 @@ void rotate_cw(char *source_path, char *dest_path)
     free(rotated);
     printf(">>> Image pivotée à 90° horaire enregistrée dans : %s\n", dest_path);
 }
+
 void scale_bilinear(char *source_path, float scale) {
     unsigned char *data;
     int width, height, channels;
